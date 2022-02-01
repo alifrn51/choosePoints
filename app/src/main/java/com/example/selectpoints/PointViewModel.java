@@ -6,6 +6,7 @@ public class PointViewModel extends ViewModel{
 
 
     private Point point1 , point2 , point3 , point4;
+    private Point pointLasted1 , pointLasted2 , pointLasted3 , pointLasted4;
 
 
     public PointViewModel() {
@@ -47,5 +48,38 @@ public class PointViewModel extends ViewModel{
 
     public void setPoint4(Point point4) {
         this.point4 = point4;
+    }
+
+
+    public Point getPointLasted1() {
+        return pointLasted1;
+    }
+
+    public void setPointLasted1(Point pointLasted1) {
+        this.pointLasted1 = pointLasted1;
+    }
+
+    public Point getPointLasted2() {
+        return pointLasted2;
+    }
+
+    public void setPointLasted2(Point pointLasted2) {
+        this.pointLasted2 = pointLasted2;
+    }
+
+    public Point getPointLasted3() {
+        return pointLasted3;
+    }
+
+    public void setPointLasted3(Point pointLasted3) {
+        this.pointLasted3 = pointLasted3;
+    }
+
+    public Point getPointLasted4() {
+        return pointLasted4;
+    }
+
+    public void setPointLasted4(Point pointLasted4) {
+        this.pointLasted4 = pointLasted4;
     }
 }

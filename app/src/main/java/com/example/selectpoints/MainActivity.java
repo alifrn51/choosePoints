@@ -119,13 +119,41 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
 
-    public boolean checkPointPosition1(Point currentPosition, Point pointPosition2, Point pointPosition3, Point pointPosition4) {
+    public boolean checkPointPosition1(Point pointPosition1, Point pointPosition2, Point pointPosition3, Point pointPosition4) {
 
-        if (currentPosition.getX() > pointPosition4.getX() ||
-                currentPosition.getX() > pointPosition3.getX()) return false;
-        else {
+        if (pointPosition1.getX() > pointPosition4.getX() ||
+                pointPosition1.getX() > pointPosition3.getX()) return true;
+        else return pointPosition1.getY() > pointPosition2.getY() ||
+                pointPosition1.getY() > pointPosition3.getY();
+
+    }
+
+    public boolean checkPointPosition2(Point pointPosition1, Point pointPosition2, Point pointPosition3, Point pointPosition4) {
+
+        if (pointPosition2.getX() > pointPosition4.getX() ||
+                pointPosition2.getX() > pointPosition3.getX()) return true;
+        else return pointPosition2.getY() < pointPosition1.getY() ||
+                pointPosition2.getY() < pointPosition4.getY();
+
+    }
+
+    public boolean checkPointPosition3(Point pointPosition1, Point pointPosition2, Point pointPosition3, Point pointPosition4) {
+
+        if (pointPosition3.getX() < pointPosition1.getX() ||
+                pointPosition3.getX() < pointPosition2.getX()) return true;
+        else return pointPosition3.getY() < pointPosition1.getY() ||
+                pointPosition3.getY() < pointPosition4.getY();
+
+    }
+
+    public boolean checkPointPosition4(Point pointPosition1, Point pointPosition2, Point pointPosition3, Point pointPosition4) {
+
+        if (pointPosition4.getX() < pointPosition1.getX() ||
+                pointPosition4.getX() < pointPosition2.getX()) return true;
+        else if (pointPosition4.getY() > pointPosition2.getY() ||
+                pointPosition4.getY() > pointPosition3.getY()) {
             return true;
-        }
+        } else return false;
 
     }
 
@@ -143,6 +171,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 dY = (view.getY()) - event.getRawY();
                 lastAction = MotionEvent.ACTION_DOWN;
 
+                pointViewModel.setPointLasted1(pointViewModel.getPoint1());
+                pointViewModel.setPointLasted2(pointViewModel.getPoint2());
+                pointViewModel.setPointLasted3(pointViewModel.getPoint3());
+                pointViewModel.setPointLasted4(pointViewModel.getPoint4());
 
                 break;
 
@@ -220,7 +252,93 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             case MotionEvent.ACTION_UP:
 
 
-                Log.i(TAG, "onTouch: point: " + (dX + event.getRawX()) + " y+> " + (dY + event.getRawY()));
+                if (view.getId() == R.id.point1) {
+                    if (checkPointPosition1(pointViewModel.getPoint1(), pointViewModel.getPoint2(), pointViewModel.getPoint3(), pointViewModel.getPoint4())) {
+
+                        pointViewModel.setPoint1(pointViewModel.getPointLasted1());
+                        pointViewModel.setPoint2(pointViewModel.getPointLasted2());
+                        pointViewModel.setPoint4(pointViewModel.getPointLasted4());
+
+                        binding.lineRectangle1.setPointStart(pointViewModel.getPoint1());
+                        binding.lineRectangle1.setPointEnd(pointViewModel.getPoint2());
+                        binding.lineRectangle1.draw();
+
+
+                        binding.lineRectangle4.setPointStart(pointViewModel.getPoint1());
+                        binding.lineRectangle4.setPointEnd(pointViewModel.getPoint4());
+                        binding.lineRectangle4.draw();
+
+
+                        view.setY(pointViewModel.getPoint1().getY()- 24);
+                        view.setX(pointViewModel.getPoint1().getX()- 24);
+
+
+                    }
+                } else if (view.getId() == R.id.point2) {
+                    if (checkPointPosition2(pointViewModel.getPoint1(), pointViewModel.getPoint2(), pointViewModel.getPoint3(), pointViewModel.getPoint4())) {
+
+
+                        pointViewModel.setPoint1(pointViewModel.getPointLasted1());
+                        pointViewModel.setPoint3(pointViewModel.getPointLasted3());
+                        pointViewModel.setPoint2(pointViewModel.getPointLasted2());
+
+                        binding.lineRectangle2.setPointStart(pointViewModel.getPoint2());
+                        binding.lineRectangle2.setPointEnd(pointViewModel.getPoint3());
+                        binding.lineRectangle2.draw();
+
+
+                        binding.lineRectangle1.setPointStart(pointViewModel.getPoint1());
+                        binding.lineRectangle1.setPointEnd(pointViewModel.getPoint2());
+                        binding.lineRectangle1.draw();
+
+
+                        view.setY(pointViewModel.getPoint2().getY()- 24);
+                        view.setX(pointViewModel.getPoint2().getX()- 24);
+
+                    }
+                } else if (view.getId() == R.id.point3) {
+
+                    if (checkPointPosition3(pointViewModel.getPoint1(), pointViewModel.getPoint2(), pointViewModel.getPoint3(), pointViewModel.getPoint4())) {
+                        //zard
+                        pointViewModel.setPoint3(pointViewModel.getPointLasted3());
+                        pointViewModel.setPoint2(pointViewModel.getPointLasted2());
+                        pointViewModel.setPoint4(pointViewModel.getPointLasted4());
+
+                        binding.lineRectangle3.setPointStart(pointViewModel.getPoint3());
+                        binding.lineRectangle3.setPointEnd(pointViewModel.getPoint4());
+                        binding.lineRectangle3.draw();
+
+
+                        binding.lineRectangle2.setPointStart(pointViewModel.getPoint2());
+                        binding.lineRectangle2.setPointEnd(pointViewModel.getPoint3());
+                        binding.lineRectangle2.draw();
+
+                        view.setY(pointViewModel.getPoint3().getY()- 24);
+                        view.setX(pointViewModel.getPoint3().getX()- 24);
+                    }
+
+                } else if (view.getId() == R.id.point4) {
+
+                    if (checkPointPosition4(pointViewModel.getPoint1(), pointViewModel.getPoint2(), pointViewModel.getPoint3(), pointViewModel.getPoint4())) {
+                        //narangi
+                        pointViewModel.setPoint4(pointViewModel.getPointLasted4());
+                        pointViewModel.setPoint1(pointViewModel.getPointLasted1());
+                        pointViewModel.setPoint3(pointViewModel.getPointLasted3());
+
+                        binding.lineRectangle4.setPointStart(pointViewModel.getPoint1());
+                        binding.lineRectangle4.setPointEnd(pointViewModel.getPoint4());
+                        binding.lineRectangle4.draw();
+
+
+                        binding.lineRectangle3.setPointStart(pointViewModel.getPoint4());
+                        binding.lineRectangle3.setPointEnd(pointViewModel.getPoint3());
+                        binding.lineRectangle3.draw();
+
+                        view.setY(pointViewModel.getPoint4().getY()- 24);
+                        view.setX(pointViewModel.getPoint4().getX()- 24);
+                    }
+                }
+
                 if (lastAction == MotionEvent.ACTION_DOWN)
                     Toast.makeText(MainActivity.this, "Clicked!", Toast.LENGTH_SHORT).show();
                 break;
